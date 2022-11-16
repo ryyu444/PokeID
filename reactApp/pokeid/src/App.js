@@ -35,22 +35,32 @@ function App() {
   return (
     <div className='InputContainer'>
       <h1>Type in your favorite Pokemon's name!</h1> 
-      <div id ="searchEngine">
+      <div id ="searchEngine"> {/* Contains the search bar and button in a flex box to help center items*/}
         <input value={input} id = "searchBar" placeholder='Please enter a Pokemon' onChange={e => setInput(e.target.value)}/>
-        <button id='searchButton' onClick={() => {setSearch(input)}}>Search</button>
+        <button id= 'searchButton' onClick={() => {setSearch(input)}}>Search</button>
       </div>
       
-      <div className='Display'>
-        <div id="displayRowOne">
-          <div>
+      <div className='Display'> {/* The card that will have all the pokemon information*/}
+
+        {/* Information is divided into 3 rows based on figma design*/}
+        <div id="displayRowOne"> {/* Contains name, ID, sprite, and type(s)*/}
+          <div> {/* Div that holds the pokemon name and ID to be displayed on left side*/}
             <p>{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p>
             <p>{`ID: ${pokeID ? pokeID : 'Unknown'}`} </p>
           </div>
-
           <img className = "sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
           <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
-
         </div>
+
+        <div id="displayRowTwo">
+          <p>Row 2 Here</p>
+        </div>
+
+        <div id="displayRowThree">
+          <p>Row 3 Here</p>
+        </div>
+        
+        
       </div>
     </div>
   );

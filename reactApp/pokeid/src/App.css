@@ -75,9 +75,15 @@ body{
   margin-top: 5vh;
   border-radius: 20px;
   width: 50vw;
-  height: 25vh;
+  height: fit-content;
 }
 #displayRowOne{
+  display:flex;
+}
+#displayRowTwo{
+  display:flex;
+}
+#displayRowThree{
   display:flex;
 }
 .sprite{
