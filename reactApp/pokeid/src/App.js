@@ -1,25 +1,12 @@
 import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 
+const Title = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function App() {
-<<<<<<< Updated upstream
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-=======
   // Holds input, search input, & pokeData from fetch req
   const [input, setInput] = useState('Piplup'); // set default to piplup 
   const [search, setSearch] = useState('');
@@ -65,7 +52,6 @@ function App() {
 
         </div>
       </div>
->>>>>>> Stashed changes
     </div>
   );
 }
