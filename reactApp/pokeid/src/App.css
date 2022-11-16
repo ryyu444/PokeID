@@ -79,6 +79,7 @@ body{
 }
 #displayRowOne{
   display:flex;
+  justify-content: space-around;
 }
 #displayRowTwo{
   display:flex;
