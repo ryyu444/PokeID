@@ -26,10 +26,10 @@ function App() {
     fetch(poke_url)
     .then(response => response.json())
     .then(json => setPokeData(json));
-    
+    //console.log(response.json())
   },[search]);
   
-
+  
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
   return (
@@ -60,7 +60,18 @@ function App() {
           <p>Row 3 Here</p>
         </div>
         
-        
+      </div>
+
+      <h1 className='evo_header'>Evolutions</h1>
+      <div className='Evolutions' > {/* Card that displays for each pokemon evolution */}
+          <div className='evo_card'>
+            <img className="evo_sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
+          </div>
+
+          <div className='evo_name'>
+            <p>{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p>
+            <p>{`ID: ${pokeID ? pokeID : 'Unknown'}`} </p>
+          </div>
       </div>
     </div>
   );
