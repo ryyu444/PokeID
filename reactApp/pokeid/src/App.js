@@ -16,7 +16,8 @@ function App() {
   let pokeName = pokeData.name; // 'name': pokemon
   let pokeType = pokeData.types; // [{0: type: name}, {1: type2: name}, ...]
   let pokeSprites = pokeData.sprites; // ['dir1': url, 'dir2': url2, ...]
-
+  let pokeHeight = pokeData.height;
+  let pokeWeight = pokeData.weight;
   let pokeStats = pokeData.stats; 
   
   // Fetches Pokemon data upon search request
@@ -50,6 +51,10 @@ function App() {
           </div>
           <img className = "sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
           <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
+          <div>
+            <p>{`Weight: ${pokeWeight ? pokeWeight : 'Unknown'}`} </p>
+            <p>{`Height: ${pokeHeight ? pokeHeight : 'Unknown'}`} </p>
+          </div>
         </div>
 
         <div id="displayRowTwo">
