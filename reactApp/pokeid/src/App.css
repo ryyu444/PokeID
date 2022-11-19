@@ -75,7 +75,7 @@ body{
   margin-top: 5vh;
   border-radius: 20px;
   width: 50vw;
-  height: fit-content;
+
 }
 #displayRowOne{
   display:flex;
@@ -83,6 +83,8 @@ body{
 }
 #displayRowTwo{
   display:flex;
+  align-items: center;
+  flex-direction: column;
 }
 #displayRowThree{
   display:flex;
@@ -94,11 +96,9 @@ body{
 #statsList{
   list-style: none;
   padding: 0;
-  width: max-content;
 }
 #statsList li{
   display: inline;
-  width: 30%;
-  float: left;
-  margin: 20px;
+  margin: 10px;
+  word-wrap: break-word;
 }

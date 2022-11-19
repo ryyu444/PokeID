@@ -57,10 +57,11 @@ function App() {
             <li>{`HP: ${pokeStats ? pokeStats[0].base_stat : 'Unknown'}`} </li>
             <li>{`Attack: ${pokeStats ? pokeStats[1].base_stat : 'Unknown'}`} </li>
             <li>{`Defense: ${pokeStats ? pokeStats[2].base_stat : 'Unknown'}`} </li>
+          </ul>
+          <ul id = "statsList">
             <li>{`Special Attack: ${pokeStats ? pokeStats[3].base_stat : 'Unknown'}`} </li>
             <li>{`Special Defense: ${pokeStats ? pokeStats[4].base_stat : 'Unknown'}`} </li>
             <li>{`Speed: ${pokeStats ? pokeStats[5].base_stat : 'Unknown'}`} </li>
-
           </ul>
         </div>
 
