@@ -91,3 +91,14 @@ body{
   width: 15vw;
   height: auto;
 }
+#statsList{
+  list-style: none;
+  padding: 0;
+  width: max-content;
+}
+#statsList li{
+  display: inline;
+  width: 30%;
+  float: left;
+  margin: 20px;
+}

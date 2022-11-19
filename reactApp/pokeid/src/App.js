@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import React, {useState, useEffect} from 'react';
 import './App.css';
 
@@ -18,6 +17,8 @@ function App() {
   let pokeType = pokeData.types; // [{0: type: name}, {1: type2: name}, ...]
   let pokeSprites = pokeData.sprites; // ['dir1': url, 'dir2': url2, ...]
 
+  let pokeStats = pokeData.stats; 
+  
   // Fetches Pokemon data upon search request
   useEffect(() => {
     
@@ -29,7 +30,6 @@ function App() {
     
   },[search]);
   
-
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
   return (
@@ -53,7 +53,15 @@ function App() {
         </div>
 
         <div id="displayRowTwo">
-          <p>Row 2 Here</p>
+          <ul id = "statsList">
+            <li>{`HP: ${pokeStats ? pokeStats[0].base_stat : 'Unknown'}`} </li>
+            <li>{`Attack: ${pokeStats ? pokeStats[1].base_stat : 'Unknown'}`} </li>
+            <li>{`Defense: ${pokeStats ? pokeStats[2].base_stat : 'Unknown'}`} </li>
+            <li>{`Special Attack: ${pokeStats ? pokeStats[3].base_stat : 'Unknown'}`} </li>
+            <li>{`Special Defense: ${pokeStats ? pokeStats[4].base_stat : 'Unknown'}`} </li>
+            <li>{`Speed: ${pokeStats ? pokeStats[5].base_stat : 'Unknown'}`} </li>
+
+          </ul>
         </div>
 
         <div id="displayRowThree">
