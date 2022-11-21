@@ -11,6 +11,10 @@ function App() {
   const [search, setSearch] = useState('');
   const [pokeData, setPokeData] = useState([]);
 
+  const [typeOne, setTypeOne] = useState('');
+  const [typeTwo, setTypeTwo] = useState('');
+
+
   // Holds Pokemon information
   let pokeID = pokeData.id; // 'id': pokedex num
   let pokeName = pokeData.name; // 'name': pokemon
@@ -19,6 +23,10 @@ function App() {
   let pokeHeight = pokeData.height;
   let pokeWeight = pokeData.weight;
   let pokeStats = pokeData.stats; 
+  let typeLength = 0;
+  if(pokeType){
+    typeLength = Object.keys(pokeType).length
+  }
   
   // Fetches Pokemon data upon search request
   useEffect(() => {
@@ -28,8 +36,37 @@ function App() {
     fetch(poke_url)
     .then(response => response.json())
     .then(json => setPokeData(json));
-    
+
+    const poke_url2 = `https://pokeapi.co/api/v2/type/${pokeType ? pokeType[0].type.name : '?offset=20&limit=150'}`
+    fetch(poke_url2)
+    .then(response => response.json())
+    .then(json => setTypeOne(json));
+
+
+    if(pokeType){
+      if(typeLength > 1){
+        const poke_url3 = `https://pokeapi.co/api/v2/type/${pokeType ? pokeType[1].type.name : '?offset=20&limit=150'}`
+        fetch(poke_url3)
+        .then(response => response.json())
+        .then(json => setTypeOne(json));
+      }  
+    }
   },[search]);
+
+  let renderType = <div></div>
+
+  if(typeLength == 2){
+    renderType = <div>
+          <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
+          <p>{`Secondary Type: ${pokeType && 1 in pokeType ? Title(pokeType[1].type.name) : 'Unknown'}`} </p>
+    </div>
+  } else{
+    renderType = <div>
+          <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
+    </div>
+  }
+  
+
   
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
@@ -50,7 +87,7 @@ function App() {
             <p>{`ID: ${pokeID ? pokeID : 'Unknown'}`} </p>
           </div>
           <img className = "sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
-          <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
+          {renderType}
           <div>
             <p>{`Weight: ${pokeWeight ? pokeWeight : 'Unknown'}`} </p>
             <p>{`Height: ${pokeHeight ? pokeHeight : 'Unknown'}`} </p>
