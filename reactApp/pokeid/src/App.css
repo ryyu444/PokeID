@@ -36,6 +36,11 @@
     transform: rotate(360deg);
   }
 }
+hr{
+  height: 1px;
+  background-color: black;
+  width: 90%;
+}
 
 body{
   background-color: #D9D9D9;
@@ -75,7 +80,7 @@ body{
   margin-top: 5vh;
   border-radius: 20px;
   width: 50vw;
-  height: fit-content;
+
 }
 #displayRowOne{
   display:flex;
@@ -83,6 +88,8 @@ body{
 }
 #displayRowTwo{
   display:flex;
+  align-items: center;
+  flex-direction: column;
 }
 #displayRowThree{
   display:flex;
@@ -90,4 +97,13 @@ body{
 .sprite{
   width: 15vw;
   height: auto;
+}
+#statsList{
+  list-style: none;
+  padding: 0;
+}
+#statsList li{
+  display: inline;
+  margin: 10px;
+  word-wrap: break-word;
 }
