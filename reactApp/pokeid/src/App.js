@@ -43,27 +43,27 @@ function App() {
     .then(json => setTypeOne(json));
 
 
-    if(pokeType){
-      if(typeLength > 1){
-        const poke_url3 = `https://pokeapi.co/api/v2/type/${pokeType ? pokeType[1].type.name : '?offset=20&limit=150'}`
-        fetch(poke_url3)
-        .then(response => response.json())
-        .then(json => setTypeOne(json));
-      }  
+    if(pokeType && typeLength > 1){
+      const poke_url3 = `https://pokeapi.co/api/v2/type/${pokeType ? pokeType[1].type.name : '?offset=20&limit=150'}`
+      fetch(poke_url3)
+      .then(response => response.json())
+      .then(json => setTypeTwo(json));
     }
   },[search]);
 
   let renderType = <div></div>
 
   if(typeLength == 2){
-    renderType = <div>
+    renderType = 
+      <div>
           <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
           <p>{`Secondary Type: ${pokeType && 1 in pokeType ? Title(pokeType[1].type.name) : 'Unknown'}`} </p>
-    </div>
-  } else{
-    renderType = <div>
+      </div>
+  } else {
+    renderType = 
+      <div>
           <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
-    </div>
+      </div>
   }
   
 
