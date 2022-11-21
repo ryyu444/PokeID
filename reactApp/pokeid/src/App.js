@@ -56,13 +56,13 @@ function App() {
   if(typeLength == 2){
     renderType = 
       <div>
-          <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
-          <p>{`Secondary Type: ${pokeType && 1 in pokeType ? Title(pokeType[1].type.name) : 'Unknown'}`} </p>
+          <p>{`${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
+          <p>{`${pokeType && 1 in pokeType ? Title(pokeType[1].type.name) : 'Unknown'}`} </p>
       </div>
   } else {
     renderType = 
       <div>
-          <p>{`Primary Type: ${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
+          <p>{`${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
       </div>
   }
   
@@ -93,6 +93,7 @@ function App() {
             <p>{`Height: ${pokeHeight ? pokeHeight : 'Unknown'}`} </p>
           </div>
         </div>
+        <hr></hr>
 
         <div id="displayRowTwo">
           <ul id = "statsList">
@@ -106,6 +107,7 @@ function App() {
             <li>{`Speed: ${pokeStats ? pokeStats[5].base_stat : 'Unknown'}`} </li>
           </ul>
         </div>
+        <hr></hr>
 
         <div id="displayRowThree">
           <p>Row 3 Here</p>
