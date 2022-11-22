@@ -52,7 +52,6 @@ async function call(id) {
         })
 
         let damageFrom = JSON.parse(JSON.stringify(types))
-        let damageTo = JSON.parse(JSON.stringify(types))
         await Promise.all(simpleTypes.map(async (type) => {
             await axios.get(`https://pokeapi.co/api/v2/type/${type}`)
             .then(res => {
@@ -60,15 +59,10 @@ async function call(id) {
                 const doubleFrom = data.double_damage_from
                 const halfFrom = data.half_damage_from
                 const noFrom = data.no_damage_from
-                const doubleTo = data.double_damage_to
-                const halfTo = data.half_damage_to
-                const noTo = data.no_damage_to
                 doubleFrom.forEach((dmgType) => damageFrom[dmgType.name] *= 2);
                 halfFrom.forEach((dmgType) => damageFrom[dmgType.name] /= 2);
                 noFrom.forEach((dmgType) => damageFrom[dmgType.name] = 0);
-                doubleTo.forEach((dmgType) => damageTo[dmgType.name] *= 2);
-                halfTo.forEach((dmgType) => damageTo[dmgType.name] /= 2);
-                noTo.forEach((dmgType) => damageTo[dmgType.name] = 0);
+
             })
         }))
 
@@ -77,16 +71,7 @@ async function call(id) {
             damageFromArr.push({type: key, multiplier: value})
         }
 
-        let damageToArr = []
-        for (const [key, value] of Object.entries(damageTo)) {
-            damageToArr.push({type: key, multiplier: value})
-        }
-
         damageFromArr.sort((a, b) => {
-            return a.multiplier - b.multiplier
-        })
-
-        damageToArr.sort((a, b) => {
             return a.multiplier - b.multiplier
         })
 
@@ -101,7 +86,6 @@ async function call(id) {
                 height: data.height,
                 evoTree: evoTree,
                 damageFrom: damageFromArr,
-                damageTo: damageToArr,
                 sprites: data.sprites.front_default
             }
         });
