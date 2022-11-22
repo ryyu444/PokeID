@@ -125,17 +125,21 @@ app.get('/pokemon_by_name', async (req, res) => {
                             statValue: stat.base_stat
                            }
                 })
-                // const attComparisons = [];
-                // const fetchPairings = async () => {
-                //     for (let i = 0; i < simpleTypes.length; i++) {
-                //         await axios.get(`https://pokeapi.co/api/v2/type/${simpleTypes[i]}`)
-                //         .then(async (response) => {
-                //             const damageRelations = response.data.damage_relations
-                //             // Continue from here!!!
-                //         })
-                //     }
-                // }
-                // await fetchPairings()
+                const attComparisons = [];
+                const fetchPairings = async () => {
+                    for (let i = 0; i < simpleTypes.length; i++) {
+                        await axios.get(`https://pokeapi.co/api/v2/type/${simpleTypes[i]}`)
+                        .then(async (response) => {
+                            const damageRelations = response.data.damage_relations
+                            attComparisons.push({"type": simpleTypes[i], "damage_relations": damageRelations})
+                            // for (const relation in damageRelations) {
+                            //     attComparisons.push(relation);
+                            // }
+                        })
+                    }
+                }
+                await fetchPairings()
+                attComparisons.forEach(type => {console.log(type)})
 
                 const evoTree = [];
                 // Finds Evolutions of Requested Pokemon - Finds species --> Finds Evolution Chain --> Grabs Names from Evolution Chain
