@@ -36,3 +36,74 @@
     transform: rotate(360deg);
   }
 }
+hr{
+  height: 1px;
+  background-color: black;
+  width: 90%;
+}
+
+body{
+  background-color: #D9D9D9;
+}
+
+.InputContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#searchEngine{
+  display: flex;
+  justify-content: center;
+}
+#searchBar{
+  width: 40vw;
+  height: 7vh;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-color: black;
+  font-size: 20px;
+}
+#searchButton{
+  background-color: red;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 7vw;
+  border-width: 2px;
+  border-color: black;
+  border-left: 0px;
+  font-size: 20px;
+}
+.Display{
+  display:flex;
+  flex-direction: column;
+  border: 1px solid black;
+  margin-top: 5vh;
+  border-radius: 20px;
+  width: 50vw;
+
+}
+#displayRowOne{
+  display:flex;
+  justify-content: space-around;
+}
+#displayRowTwo{
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+}
+#displayRowThree{
+  display:flex;
+}
+.sprite{
+  width: 15vw;
+  height: auto;
+}
+#statsList{
+  list-style: none;
+  padding: 0;
+}
+#statsList li{
+  display: inline;
+  margin: 10px;
+  word-wrap: break-word;
+}
