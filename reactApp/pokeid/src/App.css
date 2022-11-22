@@ -48,6 +48,11 @@
     transform: rotate(360deg);
   }
 }
+hr{
+  height: 1px;
+  background-color: black;
+  width: 90%;
+}
 
 body{
   background-color: #D9D9D9;
@@ -98,7 +103,7 @@ body{
   margin-top: 5vh;
   border-radius: 20px;
   width: 50vw;
-  height: fit-content;
+
 }
 #displayRowOne{
   display:flex;
@@ -106,6 +111,8 @@ body{
 }
 #displayRowTwo{
   display:flex;
+  align-items: center;
+  flex-direction: column;
 }
 #displayRowThree{
   display:flex;
