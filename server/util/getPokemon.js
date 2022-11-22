@@ -1,5 +1,26 @@
 const axios = require("axios")
 
+let types = {
+    normal: 1,
+    fire: 1,
+    water: 1,
+    electric: 1,
+    grass: 1,
+    ice: 1,
+    fighting: 1,
+    poison: 1,
+    ground: 1,
+    flying: 1,
+    psychic: 1,
+    bug: 1,
+    rock: 1,
+    ghost: 1,
+    dragon: 1,
+    dark: 1,
+    steel: 1,
+    fairy: 1
+}
+
 async function call(id) {
     // Axios GET Request w/ given ID
     const output = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -15,41 +36,60 @@ async function call(id) {
                     statValue: stat.base_stat
                     }
         })
-        const evoTree = [];
         // Finds Evolutions of Requested Pokemon - Finds species --> Finds Evolution Chain --> Grabs Names from Evolution Chain
-        const fetchEvos = async () => {
-            // Gets pokemon species data from given pokemon to get evolution chain data
-            await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${data.id}`)
-            .then(async response => {
-                const evoChainURL = response.data.evolution_chain.url
-                // Gets evolution data from evolution chain endpoint
-                const fetchEvoNames = async (url) => {
-                    await axios.get(url)
-                    .then(async response => {
-                        const data = response.data
-                        let evoData = data.chain;
-                        
-                        // Grabs evolutions of an entire Pokemon Species
-                        do {
-                            let numOfEvos = evoData.evolves_to.length;
-                            // Pushes name of base form
-                            evoTree.push(evoData.species.name)
-                            
-                            // Checks if there are more evolutions - Pushes names of evolutions
-                            if (numOfEvos > 1) {
-                                for (let i = 1; i < numOfEvos; i++) {
-                                    evoTree.push(evoData.evolves_to[i].species.name)
-                                }    
-                            }
-                            // Moves evoData object onto the nested object
-                            evoData = evoData.evolves_to[0]
-                        } while (!!evoData && evoData.hasOwnProperty('evolves_to'))
-                    })
+        const evoChainURL = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${data.id}`)
+        .then(async response => response.data.evolution_chain.url)
+
+        const evoTree = await axios.get(evoChainURL)
+        .then(response => {
+            const dfs = (pokemon) => {
+                return {
+                    name: pokemon.species.name,
+                    evolves_to: pokemon.evolves_to.map((evo) => dfs(evo))
                 }
-                await fetchEvoNames(evoChainURL)
+            }
+            return dfs(response.data.chain)
+        })
+
+        let damageFrom = JSON.parse(JSON.stringify(types))
+        let damageTo = JSON.parse(JSON.stringify(types))
+        await Promise.all(simpleTypes.map(async (type) => {
+            await axios.get(`https://pokeapi.co/api/v2/type/${type}`)
+            .then(res => {
+                const data = res.data.damage_relations
+                const doubleFrom = data.double_damage_from
+                const halfFrom = data.half_damage_from
+                const noFrom = data.no_damage_from
+                const doubleTo = data.double_damage_to
+                const halfTo = data.half_damage_to
+                const noTo = data.no_damage_to
+                doubleFrom.forEach((dmgType) => damageFrom[dmgType.name] *= 2);
+                halfFrom.forEach((dmgType) => damageFrom[dmgType.name] /= 2);
+                noFrom.forEach((dmgType) => damageFrom[dmgType.name] = 0);
+                doubleTo.forEach((dmgType) => damageTo[dmgType.name] *= 2);
+                halfTo.forEach((dmgType) => damageTo[dmgType.name] /= 2);
+                noTo.forEach((dmgType) => damageTo[dmgType.name] = 0);
             })
+        }))
+
+        let damageFromArr = []
+        for (const [key, value] of Object.entries(damageFrom)) {
+            damageFromArr.push({type: key, multiplier: value})
         }
-        await fetchEvos()
+
+        let damageToArr = []
+        for (const [key, value] of Object.entries(damageTo)) {
+            damageToArr.push({type: key, multiplier: value})
+        }
+
+        damageFromArr.sort((a, b) => {
+            return a.multiplier - b.multiplier
+        })
+
+        damageToArr.sort((a, b) => {
+            return a.multiplier - b.multiplier
+        })
+
         return ({
             success: true,
             data: {
@@ -60,6 +100,8 @@ async function call(id) {
                 weight: data.weight,
                 height: data.height,
                 evoTree: evoTree,
+                damageFrom: damageFromArr,
+                damageTo: damageToArr,
                 sprites: data.sprites.front_default
             }
         });
