@@ -1,5 +1,81 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
+import EvoCard  from './EvoCard';
+
+const card = {
+  "id": 1,
+  "name": "bulbasaur",
+  "types": [
+    {
+      "slot": 1,
+      "type": {
+        "name": "grass",
+        "url": "https://pokeapi.co/api/v2/type/12/"
+      }
+    },
+    {
+      "slot": 2,
+      "type": {
+        "name": "poison",
+        "url": "https://pokeapi.co/api/v2/type/4/"
+      }
+    }
+  ],
+  "height": 7,
+  "weight": 69,
+  "stats": [
+    {
+      "base_stat": 45,
+      "effort": 0,
+      "stat": {
+        "name": "hp",
+        "url": "https://pokeapi.co/api/v2/stat/1/"
+      }
+    },
+    {
+      "base_stat": 49,
+      "effort": 0,
+      "stat": {
+        "name": "attack",
+        "url": "https://pokeapi.co/api/v2/stat/2/"
+      }
+    },
+    {
+      "base_stat": 49,
+      "effort": 0,
+      "stat": {
+        "name": "defense",
+        "url": "https://pokeapi.co/api/v2/stat/3/"
+      }
+    },
+    {
+      "base_stat": 65,
+      "effort": 1,
+      "stat": {
+        "name": "special-attack",
+        "url": "https://pokeapi.co/api/v2/stat/4/"
+      }
+    },
+    {
+      "base_stat": 65,
+      "effort": 0,
+      "stat": {
+        "name": "special-defense",
+        "url": "https://pokeapi.co/api/v2/stat/5/"
+      }
+    },
+    {
+      "base_stat": 45,
+      "effort": 0,
+      "stat": {
+        "name": "speed",
+        "url": "https://pokeapi.co/api/v2/stat/6/"
+      }
+    }
+  ],
+  
+
+}
 
 const Title = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -14,6 +90,7 @@ function App() {
   const [typeOne, setTypeOne] = useState('');
   const [typeTwo, setTypeTwo] = useState('');
 
+  
 
   // Holds Pokemon information
   let pokeID = pokeData.id; // 'id': pokedex num
@@ -30,12 +107,11 @@ function App() {
   
   // Fetches Pokemon data upon search request
   useEffect(() => {
-    
     // Error Handling: Invalid input --> Display error message/popup
     const poke_url = `https://pokeapi.co/api/v2/pokemon/${input ? input.toLowerCase() : '?offset=20&limit=150'}`
     fetch(poke_url)
     .then(response => response.json())
-    .then(json => setPokeData(json));
+    .then(json => setPokeData(json)).then(console.log());
     //console.log(response.json())
   },[search]);
 
@@ -102,7 +178,10 @@ function App() {
         
       </div>
 
+      
+
       <h1 className='evo_header'>Evolutions</h1>
+      <EvoCard card={card}/>
       <div className='Evolutions' > {/* Card that displays for each pokemon evolution */}
           <div className='evo_card'>
             <img className="evo_sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
