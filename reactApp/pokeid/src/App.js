@@ -2,80 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import EvoCard  from './EvoCard';
 
-const card = {
-  "id": 1,
-  "name": "bulbasaur",
-  "types": [
-    {
-      "slot": 1,
-      "type": {
-        "name": "grass",
-        "url": "https://pokeapi.co/api/v2/type/12/"
-      }
-    },
-    {
-      "slot": 2,
-      "type": {
-        "name": "poison",
-        "url": "https://pokeapi.co/api/v2/type/4/"
-      }
-    }
-  ],
-  "height": 7,
-  "weight": 69,
-  "stats": [
-    {
-      "base_stat": 45,
-      "effort": 0,
-      "stat": {
-        "name": "hp",
-        "url": "https://pokeapi.co/api/v2/stat/1/"
-      }
-    },
-    {
-      "base_stat": 49,
-      "effort": 0,
-      "stat": {
-        "name": "attack",
-        "url": "https://pokeapi.co/api/v2/stat/2/"
-      }
-    },
-    {
-      "base_stat": 49,
-      "effort": 0,
-      "stat": {
-        "name": "defense",
-        "url": "https://pokeapi.co/api/v2/stat/3/"
-      }
-    },
-    {
-      "base_stat": 65,
-      "effort": 1,
-      "stat": {
-        "name": "special-attack",
-        "url": "https://pokeapi.co/api/v2/stat/4/"
-      }
-    },
-    {
-      "base_stat": 65,
-      "effort": 0,
-      "stat": {
-        "name": "special-defense",
-        "url": "https://pokeapi.co/api/v2/stat/5/"
-      }
-    },
-    {
-      "base_stat": 45,
-      "effort": 0,
-      "stat": {
-        "name": "speed",
-        "url": "https://pokeapi.co/api/v2/stat/6/"
-      }
-    }
-  ],
-  
 
-}
 
 const Title = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -83,7 +10,7 @@ const Title = (string) => {
 
 function App() {
   // Holds input, search input, & pokeData from fetch req
-  const [input, setInput] = useState('Piplup'); // set default to piplup 
+  const [input, setInput] = useState('Pikachu'); // set default to piplup 
   const [search, setSearch] = useState('');
   const [pokeData, setPokeData] = useState([]);
 
@@ -101,6 +28,9 @@ function App() {
   let pokeWeight = pokeData.weight;
   let pokeStats = pokeData.stats; 
   let typeLength = 0;
+
+  let poke_type = 'default.png';
+
   if(pokeType){
     typeLength = Object.keys(pokeType).length
   }
@@ -112,7 +42,7 @@ function App() {
     fetch(poke_url)
     .then(response => response.json())
     .then(json => setPokeData(json)).then(console.log());
-    //console.log(response.json())
+    
   },[search]);
 
   let renderType = <div></div>
@@ -130,6 +60,17 @@ function App() {
       </div>
   }
   
+  if (pokeType && pokeType[0].type.name === 'fire') {
+      poke_type = document.getElementById('dsp').style.backgroundImage="url(" + "moltres.png" + ")";
+  } else if (pokeType && pokeType[0].type.name === 'grass') {
+      poke_type = document.getElementById('dsp').style.backgroundImage="url(" + "grasstype.png" + ")";
+  } else if (pokeType && pokeType[0].type.name === 'water') {
+      poke_type = document.getElementById('dsp').style.backgroundImage="url(" + "watertype.png" + ")";
+  } else if (poke_type === null) {
+      poke_type = document.getElementById('dsp').style.backgroundImage="url(" + "default.png" + ")";
+  } else {
+      poke_type = 'default.png' 
+  }
   
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
@@ -141,8 +82,10 @@ function App() {
         <button id= 'searchButton' onClick={() => {setSearch(input)}}>Search</button>
       </div>
       
-      <div className='Display'> {/* The card that will have all the pokemon information*/}
+      <div className='Display' id='dsp' > {/* The card that will have all the pokemon information*/}
 
+        {/* <img className='Display' id='dsp' src={poke_type} ></img> */}
+        
         {/* Information is divided into 3 rows based on figma design*/}
         <div id="displayRowOne"> {/* Contains name, ID, sprite, and type(s)*/}
           <div> {/* Div that holds the pokemon name and ID to be displayed on left side*/}
@@ -178,22 +121,124 @@ function App() {
         
       </div>
 
+      {/* <h1 className='evo_header'>Evolutions</h1> */}
+      {/* <EvoCard card={card}/> */}
+      {/* <EvoCard card={card}/>
+      {
+      card?.length > 0
+          ? (
+            <div className='container'>
+              {card.map((card) => (
+                <EvoCard card={card}/>
+              ))}
+            </div>
+          ) :
+          (
+            <div className='empty'>
+              <h2>No evolutions found!</h2>
+            </div>
+          )
+} */}
+      {/* <div className='Evolutions' > Card that displays for each pokemon evolution */}
+        
+          {/* <div className='evo_card'> */}
+            {/* <img className="evo_sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/> */}
+          {/* </div> */}
+
+          {/* <div className='evo_name'> */}
+            {/* <p>{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p> */}
+            {/* <p>{`ID: ${pokeID ? pokeID : 'Unknown'}`} </p> */}
+          {/* </div> */}
+      {/* </div> */}
       
-
-      <h1 className='evo_header'>Evolutions</h1>
-      <EvoCard card={card}/>
-      <div className='Evolutions' > {/* Card that displays for each pokemon evolution */}
-          <div className='evo_card'>
-            <img className="evo_sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
-          </div>
-
-          <div className='evo_name'>
-            <p>{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p>
-            <p>{`ID: ${pokeID ? pokeID : 'Unknown'}`} </p>
-          </div>
-      </div>
     </div>
+    
   );
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+// const card = {
+//   "id": 1,
+//   "name": "bulbasaur",
+//   "types": [
+//     {
+//       "slot": 1,
+//       "type": {
+//         "name": "grass",
+//         "url": "https://pokeapi.co/api/v2/type/12/"
+//       }
+//     },
+//     {
+//       "slot": 2,
+//       "type": {
+//         "name": "poison",
+//         "url": "https://pokeapi.co/api/v2/type/4/"
+//       }
+//     }
+//   ],
+//   "height": 7,
+//   "weight": 69,
+//   "stats": [
+//     {
+//       "base_stat": 45,
+//       "effort": 0,
+//       "stat": {
+//         "name": "hp",
+//         "url": "https://pokeapi.co/api/v2/stat/1/"
+//       }
+//     },
+//     {
+//       "base_stat": 49,
+//       "effort": 0,
+//       "stat": {
+//         "name": "attack",
+//         "url": "https://pokeapi.co/api/v2/stat/2/"
+//       }
+//     },
+//     {
+//       "base_stat": 49,
+//       "effort": 0,
+//       "stat": {
+//         "name": "defense",
+//         "url": "https://pokeapi.co/api/v2/stat/3/"
+//       }
+//     },
+//     {
+//       "base_stat": 65,
+//       "effort": 1,
+//       "stat": {
+//         "name": "special-attack",
+//         "url": "https://pokeapi.co/api/v2/stat/4/"
+//       }
+//     },
+//     {
+//       "base_stat": 65,
+//       "effort": 0,
+//       "stat": {
+//         "name": "special-defense",
+//         "url": "https://pokeapi.co/api/v2/stat/5/"
+//       }
+//     },
+//     {
+//       "base_stat": 45,
+//       "effort": 0,
+//       "stat": {
+//         "name": "speed",
+//         "url": "https://pokeapi.co/api/v2/stat/6/"
+//       }
+//     }
+//   ],
+  
+
+// }

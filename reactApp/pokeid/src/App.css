@@ -97,14 +97,28 @@ body{
 }
 
 .Display{
+  transition: 0.4s;
   display:flex;
   flex-direction: column;
   border: 2px solid black;
   margin-top: 5vh;
   border-radius: 20px;
   width: 50vw;
+  color: white;
+  font-size:larger;
+  font-weight: bold;
+  
 
 }
+
+#dsp {
+  opacity: 100%;
+  background-size: cover;
+  background-blend-mode: multiply;
+  position:relative;
+}
+
+
 #displayRowOne{
   display:flex;
   justify-content: space-around;
@@ -154,4 +168,11 @@ body{
 
 .evo_name {
   font-size: 30px;
+}
+
+.typebg {
+  object-fit: contain;
+  position:absolute;
+  
+ 
 }
