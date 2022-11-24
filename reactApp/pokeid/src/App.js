@@ -37,6 +37,23 @@ function App() {
     .then(response => response.json())
     .then(json => setPokeData(json));
 
+    fetch(`http://localhost:4000/pokemon_by_id?id=1`,
+    {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      }
+    )
+    .then((res) => res.json())
+    .then((post) => {
+      console.log(post)
+      setPokeData(post.data)
+   })
+   .catch((err) => {
+      console.log(err.message);
+   });
+
+  
+
     const poke_url2 = `https://pokeapi.co/api/v2/type/${pokeType ? pokeType[0].type.name : '?offset=20&limit=150'}`
     fetch(poke_url2)
     .then(response => response.json())
