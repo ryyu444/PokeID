@@ -11,10 +11,6 @@ function App() {
   const [search, setSearch] = useState('');
   const [pokeData, setPokeData] = useState([]);
 
-  const [typeOne, setTypeOne] = useState('');
-  const [typeTwo, setTypeTwo] = useState('');
-
-
   // Holds Pokemon information
   let pokeID = pokeData.id; // 'id': pokedex num
   let pokeName = pokeData.name; // 'name': pokemon
@@ -65,35 +61,29 @@ function App() {
   if(typeLength == 2){
     renderType = 
       <div>
-          <p className="typeDisplay" id = {pokeType ? pokeType[0] : 'Unknown'}>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
-          <p className="typeDisplay" id = {pokeType ? pokeType[1] : 'Unknown'}>{`${pokeType && 1 in pokeType ? Title(pokeType[1]) : 'Unknown'}`} </p>
+          <p className="typeDisplay text" id = {pokeType ? pokeType[0] : 'Unknown'}>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
+          <p className="typeDisplay text" id = {pokeType ? pokeType[1] : 'Unknown'}>{`${pokeType && 1 in pokeType ? Title(pokeType[1]) : 'Unknown'}`} </p>
       </div>
   } else {
     renderType = 
       <div className="typeDisplay">
-          <p id = {pokeType ? pokeType[0] : 'Unknown'}>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
+          <p className="text" id = {pokeType ? pokeType[0] : 'Unknown'}>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
       </div>
   }
 
   // create objects for strong against and weak against
-
   let weak = []
-  
   let strong = []
-
   if(damageFrom){
     for(let i = 0; i < damageFrom.length; i++) {
       if(damageFrom[i]['multiplier'] > 1){
-        weak.push(<p id = {damageFrom[i]['type']}>{Title(damageFrom[i]['type'])}</p>)
+        weak.push(<div className="text" id = {damageFrom[i]['type']}>{Title(damageFrom[i]['type'])}</div>)
       }
       if(damageFrom[i]['multiplier'] < 1){
-        strong.push(<p id = {damageFrom[i]['type']}>{Title(damageFrom[i]['type'])}</p>)
+        strong.push(<div className="text" id = {damageFrom[i]['type']}>{Title(damageFrom[i]['type'])}</div>)
       }
     }
   }
-
-  //console.log(weak)
-  //console.log(strong)
 
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
@@ -110,14 +100,14 @@ function App() {
         {/* Information is divided into 3 rows based on figma design*/}
         <div id="displayRowOne"> {/* Contains name, ID, sprite, and type(s)*/}
           <div> {/* Div that holds the pokemon name and ID to be displayed on left side*/}
-            <p>{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p>
-            <p id = "alignLeft">{`#${pokeID ? pokeID : 'Unknown'}`} </p>
+            <p className="text">{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p>
+            <p className="text" id = "alignLeft">{`#${pokeID ? pokeID : 'Unknown'}`} </p>
           </div>
           <img className = "sprite" src={`${pokeSprites ? pokeSprites : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
           {renderType}
           <div>
-            <p>{`Weight: ${pokeWeight ? pokeWeight / 10 : 'Unknown'}`}kg</p>
-            <p>{`Height: ${pokeHeight ? pokeHeight / 10 : 'Unknown'}`}m</p>
+            <p className="text">{`Weight: ${pokeWeight ? pokeWeight / 10 : 'Unknown'}`}kg</p>
+            <p className="text">{`Height: ${pokeHeight ? pokeHeight / 10 : 'Unknown'}`}m</p>
           </div>
         </div>
         <hr></hr>
@@ -138,18 +128,20 @@ function App() {
 
         <div id="displayRowThree">
           <div className="typesListS">
-            <p>Strong Against:</p>
-            {strong}
+            <p className="text">Strong Against:</p>
+            {strong.map(type => (
+              <div>
+              <div>{type}</div> 
+              </div>
+            ))}
           </div>
 
           <div className="typesListW">
-            <p>Weak Against: </p>
+            <p className="text">Weak Against: </p>
             {weak}
           </div>
 
         </div>
-        
-        
       </div>
     </div>
   );
