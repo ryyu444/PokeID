@@ -46,6 +46,13 @@ body{
   background-color: #D9D9D9;
 }
 
+p{
+  font-size: 20px;
+  text-align: center;
+}
+#alignLeft{
+  text-align: left;
+}
 .InputContainer{
   display: flex;
   flex-direction: column;
@@ -84,7 +91,8 @@ body{
 }
 #displayRowOne{
   display:flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  align-items: center;
 }
 #displayRowTwo{
   display:flex;
@@ -100,30 +108,26 @@ body{
   height: auto;
 }
 #statsList{
-  list-style: none;
-  padding: 0;
-}
-#statsList li{
-  display: inline;
+  display: flex;
+  flex-direction: row;
+  width: 30vw;
+  justify-content: space-between;
   margin: 10px;
-  word-wrap: break-word;
 }
+
 .typeDisplay{
-  width: 65px;
+  width: 105px;
 }
 .typesListS{
   display: flex;
   flex-direction: column;
-  width: 5vw;
+  width: 105px;
   border-right: 20px black;
 }
 .typesListW{
   display: flex;
   flex-direction: column;
-  width: 5vw;
-}
-p{
-  text-align: center;
+  width: 105px;
 }
 
 /*Making a bunch of CSS classes to make each type have a unique color background */

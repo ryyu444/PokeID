@@ -84,10 +84,10 @@ function App() {
   if(damageFrom){
     for(let i = 0; i < damageFrom.length; i++) {
       if(damageFrom[i]['multiplier'] > 1){
-        weak.push(<p id = {damageFrom[i]['type']}>{damageFrom[i]['type']}</p>)
+        weak.push(<p id = {damageFrom[i]['type']}>{Title(damageFrom[i]['type'])}</p>)
       }
       if(damageFrom[i]['multiplier'] < 1){
-        strong.push(<p id = {damageFrom[i]['type']}>{damageFrom[i]['type']}</p>)
+        strong.push(<p id = {damageFrom[i]['type']}>{Title(damageFrom[i]['type'])}</p>)
       }
     }
   }
@@ -111,28 +111,28 @@ function App() {
         <div id="displayRowOne"> {/* Contains name, ID, sprite, and type(s)*/}
           <div> {/* Div that holds the pokemon name and ID to be displayed on left side*/}
             <p>{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p>
-            <p>{`ID: ${pokeID ? pokeID : 'Unknown'}`} </p>
+            <p id = "alignLeft">{`#${pokeID ? pokeID : 'Unknown'}`} </p>
           </div>
           <img className = "sprite" src={`${pokeSprites ? pokeSprites : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
           {renderType}
           <div>
-            <p>{`Weight: ${pokeWeight ? pokeWeight : 'Unknown'}`} </p>
-            <p>{`Height: ${pokeHeight ? pokeHeight : 'Unknown'}`} </p>
+            <p>{`Weight: ${pokeWeight ? pokeWeight / 10 : 'Unknown'}`}kg</p>
+            <p>{`Height: ${pokeHeight ? pokeHeight / 10 : 'Unknown'}`}m</p>
           </div>
         </div>
         <hr></hr>
 
         <div id="displayRowTwo">
-          <ul id = "statsList">
-            <li>{`HP: ${pokeStats ? pokeStats[0]['statValue'] : 'Unknown'}`} </li>
-            <li>{`Attack: ${pokeStats ? pokeStats[1]['statValue'] : 'Unknown'}`} </li>
-            <li>{`Defense: ${pokeStats ? pokeStats[2]['statValue'] : 'Unknown'}`} </li>
-          </ul>
-          <ul id = "statsList">
-            <li>{`Special Attack: ${pokeStats ? pokeStats[3]['statValue']: 'Unknown'}`} </li>
-            <li>{`Special Defense: ${pokeStats ? pokeStats[4]['statValue']: 'Unknown'}`} </li>
-            <li>{`Speed: ${pokeStats ? pokeStats[5]['statValue'] : 'Unknown'}`} </li>
-          </ul>
+          <div id = "statsList">
+            <div>{`HP: ${pokeStats ? pokeStats[0]['statValue'] : 'Unknown'}`} </div>
+            <div>{`Attack: ${pokeStats ? pokeStats[1]['statValue'] : 'Unknown'}`} </div>
+            <div>{`Special Attack: ${pokeStats ? pokeStats[3]['statValue'] : 'Unknown'}`} </div>
+          </div>
+          <div id = "statsList">
+            <div>{`Speed: ${pokeStats ? pokeStats[5]['statValue']: 'Unknown'}`} </div>
+            <div>{`Defense: ${pokeStats ? pokeStats[2]['statValue']: 'Unknown'}`} </div>
+            <div>{`Special Defense: ${pokeStats ? pokeStats[4]['statValue'] : 'Unknown'}`} </div>
+          </div>
         </div>
         <hr></hr>
 
