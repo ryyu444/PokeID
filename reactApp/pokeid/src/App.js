@@ -18,54 +18,45 @@ function App() {
   // Holds Pokemon information
   let pokeID = pokeData.id; // 'id': pokedex num
   let pokeName = pokeData.name; // 'name': pokemon
-  let pokeType = pokeData.types; // [{0: type: name}, {1: type2: name}, ...]
+  let pokeType = pokeData.type; // [{0: type: name}, {1: type2: name}, ...]
   let pokeSprites = pokeData.sprites; // ['dir1': url, 'dir2': url2, ...]
   let pokeHeight = pokeData.height;
   let pokeWeight = pokeData.weight;
   let pokeStats = pokeData.stats; 
   let typeLength = 0;
   if(pokeType){
-    typeLength = Object.keys(pokeType).length
+    typeLength = pokeType.length;
   }
   
   // Fetches Pokemon data upon search request
   useEffect(() => {
-    
-    // Error Handling: Invalid input --> Display error message/popup
-    const poke_url = `https://pokeapi.co/api/v2/pokemon/${input ? input.toLowerCase() : '?offset=20&limit=150'}`
-    fetch(poke_url)
-    .then(response => response.json())
-    .then(json => setPokeData(json));
 
-    fetch(`http://localhost:4000/pokemon_by_id?id=1`,
+    fetch(`http://localhost:4000/pokemon_by_id?id=${input ? input.toLowerCase() : '?offset=20&limit=150'}`,
     {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
       }
     )
-    .then((res) => res.json())
-    .then((post) => {
-      console.log(post)
-      setPokeData(post.data)
+    .then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    throw new Error('Something went wrong')
+    })
+    .then((responseJson) => {
+      console.log(responseJson['success'])
+      if(responseJson['success'] == false){
+        alert("Incorrect name or ID")
+      }
+      else{
+        setPokeData(responseJson.data)
+      }
+
    })
    .catch((err) => {
       console.log(err.message);
+      setPokeData("piplup");
    });
-
-  
-
-    const poke_url2 = `https://pokeapi.co/api/v2/type/${pokeType ? pokeType[0].type.name : '?offset=20&limit=150'}`
-    fetch(poke_url2)
-    .then(response => response.json())
-    .then(json => setTypeOne(json));
-
-
-    if(pokeType && typeLength > 1){
-      const poke_url3 = `https://pokeapi.co/api/v2/type/${pokeType ? pokeType[1].type.name : '?offset=20&limit=150'}`
-      fetch(poke_url3)
-      .then(response => response.json())
-      .then(json => setTypeTwo(json));
-    }
   },[search]);
 
   let renderType = <div></div>
@@ -73,17 +64,15 @@ function App() {
   if(typeLength == 2){
     renderType = 
       <div>
-          <p>{`${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
-          <p>{`${pokeType && 1 in pokeType ? Title(pokeType[1].type.name) : 'Unknown'}`} </p>
+          <p>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
+          <p>{`${pokeType && 1 in pokeType ? Title(pokeType[1]) : 'Unknown'}`} </p>
       </div>
   } else {
     renderType = 
       <div>
-          <p>{`${pokeType ? Title(pokeType[0].type.name) : 'Unknown'}`} </p>
+          <p>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
       </div>
   }
-  
-
   
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
@@ -103,7 +92,7 @@ function App() {
             <p>{pokeName ? Title(pokeName) : 'Pokemon Finder'} </p>
             <p>{`ID: ${pokeID ? pokeID : 'Unknown'}`} </p>
           </div>
-          <img className = "sprite" src={`${pokeSprites ? pokeSprites.front_default : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
+          <img className = "sprite" src={`${pokeSprites ? pokeSprites : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBCQSlOc0PRILMM5FCtsmAgSrMmjWY2QUHNw&usqp=CAU}'}`}/>
           {renderType}
           <div>
             <p>{`Weight: ${pokeWeight ? pokeWeight : 'Unknown'}`} </p>
@@ -114,14 +103,14 @@ function App() {
 
         <div id="displayRowTwo">
           <ul id = "statsList">
-            <li>{`HP: ${pokeStats ? pokeStats[0].base_stat : 'Unknown'}`} </li>
-            <li>{`Attack: ${pokeStats ? pokeStats[1].base_stat : 'Unknown'}`} </li>
-            <li>{`Defense: ${pokeStats ? pokeStats[2].base_stat : 'Unknown'}`} </li>
+            <li>{`HP: ${pokeStats ? pokeStats[0]['statValue'] : 'Unknown'}`} </li>
+            <li>{`Attack: ${pokeStats ? pokeStats[1]['statValue'] : 'Unknown'}`} </li>
+            <li>{`Defense: ${pokeStats ? pokeStats[2]['statValue'] : 'Unknown'}`} </li>
           </ul>
           <ul id = "statsList">
-            <li>{`Special Attack: ${pokeStats ? pokeStats[3].base_stat : 'Unknown'}`} </li>
-            <li>{`Special Defense: ${pokeStats ? pokeStats[4].base_stat : 'Unknown'}`} </li>
-            <li>{`Speed: ${pokeStats ? pokeStats[5].base_stat : 'Unknown'}`} </li>
+            <li>{`Special Attack: ${pokeStats ? pokeStats[3]['statValue']: 'Unknown'}`} </li>
+            <li>{`Special Defense: ${pokeStats ? pokeStats[4]['statValue']: 'Unknown'}`} </li>
+            <li>{`Speed: ${pokeStats ? pokeStats[5]['statValue'] : 'Unknown'}`} </li>
           </ul>
         </div>
         <hr></hr>
