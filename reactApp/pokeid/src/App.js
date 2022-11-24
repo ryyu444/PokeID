@@ -2,15 +2,13 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import EvoCard  from './EvoCard';
 
-
-
 const Title = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function App() {
   // Holds input, search input, & pokeData from fetch req
-  const [input, setInput] = useState('Pikachu'); // set default to piplup 
+  const [input, setInput] = useState('pikachu'); // set default to pikachu 
   const [search, setSearch] = useState('');
   const [pokeData, setPokeData] = useState([]);
 
@@ -38,7 +36,8 @@ function App() {
   // Fetches Pokemon data upon search request
   useEffect(() => {
     // Error Handling: Invalid input --> Display error message/popup
-    const poke_url = `https://pokeapi.co/api/v2/pokemon/${input ? input.toLowerCase() : '?offset=20&limit=150'}`
+
+    const poke_url = `https://pokeapi.co/api/v2/pokemon/${input}`
     fetch(poke_url)
     .then(response => response.json())
     .then(json => setPokeData(json)).then(console.log());
@@ -71,6 +70,7 @@ function App() {
   } else {
       poke_type = 'default.png' 
   }
+
   
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
@@ -120,6 +120,26 @@ function App() {
         </div>
         
       </div>
+
+      {/* <div id ="nextPokemonz"> Contains the search bar and button in a flex box to help center items */}
+        {/* <input value={input} id = "n" placeholder='Please enter a Pokemon' onChange={e => setInput(e.target.value)}/> */}
+        {/* <button value={input} id= 's' onClick={() => {setSearch(input + 1)}}>test</button> */}
+      {/* </div> */}
+
+      <button id= 'nextButton' onClick={() => {
+        let nextpokeID = pokeID + 1;
+        setInput(nextpokeID)
+        setSearch(nextpokeID)
+         }
+        }>Next Pokemon
+        </button>
+        <button id= 'backButton' onClick={() => {
+        let nextpokeID = pokeID - 1;
+        setInput(nextpokeID)
+        setSearch(nextpokeID)
+         }
+        }>Last Pokemon
+        </button>
 
       {/* <h1 className='evo_header'>Evolutions</h1> */}
       {/* <EvoCard card={card}/> */}

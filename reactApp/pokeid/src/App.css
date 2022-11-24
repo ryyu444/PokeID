@@ -107,17 +107,15 @@ body{
   color: white;
   font-size:larger;
   font-weight: bold;
-  
-
+  background-image: url('../public/default.png')
 }
 
 #dsp {
-  opacity: 100%;
+
   background-size: cover;
   background-blend-mode: multiply;
   position:relative;
 }
-
 
 #displayRowOne{
   display:flex;
