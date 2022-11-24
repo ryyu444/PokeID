@@ -50,6 +50,9 @@ body{
   font-size: 20px;
   text-align: center;
 }
+.text2{
+  font-size: 18px;
+}
 #alignLeft{
   text-align: left;
 }

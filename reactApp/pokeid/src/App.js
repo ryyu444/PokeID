@@ -114,14 +114,14 @@ function App() {
 
         <div id="displayRowTwo">
           <div id = "statsList">
-            <div>{`HP: ${pokeStats ? pokeStats[0]['statValue'] : 'Unknown'}`} </div>
-            <div>{`Attack: ${pokeStats ? pokeStats[1]['statValue'] : 'Unknown'}`} </div>
-            <div>{`Special Attack: ${pokeStats ? pokeStats[3]['statValue'] : 'Unknown'}`} </div>
+            <div className="text2">{`HP: ${pokeStats ? pokeStats[0]['statValue'] : 'Unknown'}`} </div>
+            <div className="text2">{`Attack: ${pokeStats ? pokeStats[1]['statValue'] : 'Unknown'}`} </div>
+            <div className="text2">{`Special Attack: ${pokeStats ? pokeStats[3]['statValue'] : 'Unknown'}`} </div>
           </div>
           <div id = "statsList">
-            <div>{`Speed: ${pokeStats ? pokeStats[5]['statValue']: 'Unknown'}`} </div>
-            <div>{`Defense: ${pokeStats ? pokeStats[2]['statValue']: 'Unknown'}`} </div>
-            <div>{`Special Defense: ${pokeStats ? pokeStats[4]['statValue'] : 'Unknown'}`} </div>
+            <div className="text2">{`Speed: ${pokeStats ? pokeStats[5]['statValue']: 'Unknown'}`} </div>
+            <div className="text2">{`Defense: ${pokeStats ? pokeStats[2]['statValue']: 'Unknown'}`} </div>
+            <div className="text2">{`Special Defense: ${pokeStats ? pokeStats[4]['statValue'] : 'Unknown'}`} </div>
           </div>
         </div>
         <hr></hr>
