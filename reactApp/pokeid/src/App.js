@@ -65,30 +65,29 @@ function App() {
   if(typeLength == 2){
     renderType = 
       <div>
-          <p>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
-          <p>{`${pokeType && 1 in pokeType ? Title(pokeType[1]) : 'Unknown'}`} </p>
+          <p className="typeDisplay" id = {pokeType ? pokeType[0] : 'Unknown'}>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
+          <p className="typeDisplay" id = {pokeType ? pokeType[1] : 'Unknown'}>{`${pokeType && 1 in pokeType ? Title(pokeType[1]) : 'Unknown'}`} </p>
       </div>
   } else {
     renderType = 
-      <div>
-          <p>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
+      <div className="typeDisplay">
+          <p id = {pokeType ? pokeType[0] : 'Unknown'}>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
       </div>
   }
 
   // create objects for strong against and weak against
 
   let weak = []
-
   
   let strong = []
 
   if(damageFrom){
     for(let i = 0; i < damageFrom.length; i++) {
       if(damageFrom[i]['multiplier'] > 1){
-        weak.push(<p>{damageFrom[i]['type']}</p>)
+        weak.push(<p id = {damageFrom[i]['type']}>{damageFrom[i]['type']}</p>)
       }
       if(damageFrom[i]['multiplier'] < 1){
-        strong.push(<p>{damageFrom[i]['type']}</p>)
+        strong.push(<p id = {damageFrom[i]['type']}>{damageFrom[i]['type']}</p>)
       }
     }
   }
@@ -138,18 +137,14 @@ function App() {
         <hr></hr>
 
         <div id="displayRowThree">
-          <div>
-            Strong Against:
-            <div className="typesList">
+          <div className="typesListS">
+            <p>Strong Against:</p>
             {strong}
-            </div>
           </div>
 
-          <div>
-            Weak Against:
-            <div className="typesList">
+          <div className="typesListW">
+            <p>Weak Against: </p>
             {weak}
-            </div>
           </div>
 
         </div>

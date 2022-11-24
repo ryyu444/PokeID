@@ -108,7 +108,61 @@ body{
   margin: 10px;
   word-wrap: break-word;
 }
-.typesList{
+.typeDisplay{
+  width: 65px;
+}
+.typesListS{
   display: flex;
   flex-direction: column;
+  width: 5vw;
+  border-right: 20px black;
+}
+.typesListW{
+  display: flex;
+  flex-direction: column;
+  width: 5vw;
+}
+p{
+  text-align: center;
+}
+
+/*Making a bunch of CSS classes to make each type have a unique color background */
+
+#normal{
+background-color: rgb(170,170,153);
+}
+#fire{
+  background-color: rgb(255,68,34);
+}#water{
+  background-color: rgb(51,153,254);
+}#electric{
+  background-color: rgb(255,204,51);
+}#grass{
+  background-color: rgb(118,204,85);
+}#ice{
+  background-color: rgb(101,204,255);
+}#fighting{
+  background-color: rgb(186,85,68);
+}#poison{
+  background-color: rgb(170,85,153);
+}#ground{
+  background-color: rgb(222,187,84);
+}#flying{
+  background-color: rgb(135,153,255);
+}#psychic{
+  background-color: rgb(255,85,153);
+}#bug{
+  background-color: rgb(169,187,34);
+}#rock{
+  background-color: rgb(187,170,102);
+}#ghost{
+  background-color: rgb(102,102,186);
+}#dragon{
+  background-color: rgb(118,102,238);
+}#dark{
+  background-color: rgb(119,84,68);
+}#steel{
+  background-color: rgb(170,170,187);
+}#fairy{
+  background-color: rgb(238,153,238);
 }
