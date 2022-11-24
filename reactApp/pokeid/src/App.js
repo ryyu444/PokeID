@@ -23,6 +23,7 @@ function App() {
   let pokeHeight = pokeData.height;
   let pokeWeight = pokeData.weight;
   let pokeStats = pokeData.stats; 
+  let damageFrom = pokeData.damageFrom;
   let typeLength = 0;
   if(pokeType){
     typeLength = pokeType.length;
@@ -44,7 +45,7 @@ function App() {
     throw new Error('Something went wrong')
     })
     .then((responseJson) => {
-      console.log(responseJson['success'])
+      console.log(responseJson)
       if(responseJson['success'] == false){
         alert("Incorrect name or ID")
       }
@@ -73,7 +74,28 @@ function App() {
           <p>{`${pokeType ? Title(pokeType[0]) : 'Unknown'}`} </p>
       </div>
   }
+
+  // create objects for strong against and weak against
+
+  let weak = []
+
   
+  let strong = []
+
+  if(damageFrom){
+    for(let i = 0; i < damageFrom.length; i++) {
+      if(damageFrom[i]['multiplier'] > 1){
+        weak.push(<p>{damageFrom[i]['type']}</p>)
+      }
+      if(damageFrom[i]['multiplier'] < 1){
+        strong.push(<p>{damageFrom[i]['type']}</p>)
+      }
+    }
+  }
+
+  //console.log(weak)
+  //console.log(strong)
+
   // Add classes that hide or show certain aspects like the ID, Type, Name, etc
   // Need to add ALL types of a Pokemon
   return (
@@ -116,7 +138,20 @@ function App() {
         <hr></hr>
 
         <div id="displayRowThree">
-          <p>Row 3 Here</p>
+          <div>
+            Strong Against:
+            <div className="typesList">
+            {strong}
+            </div>
+          </div>
+
+          <div>
+            Weak Against:
+            <div className="typesList">
+            {weak}
+            </div>
+          </div>
+
         </div>
         
         

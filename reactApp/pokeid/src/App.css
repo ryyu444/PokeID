@@ -93,6 +93,7 @@ body{
 }
 #displayRowThree{
   display:flex;
+  justify-content: space-around;
 }
 .sprite{
   width: 15vw;
@@ -106,4 +107,8 @@ body{
   display: inline;
   margin: 10px;
   word-wrap: break-word;
+}
+.typesList{
+  display: flex;
+  flex-direction: column;
 }
