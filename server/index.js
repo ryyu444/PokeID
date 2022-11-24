@@ -16,7 +16,9 @@ app.use(cors({
 
 // Middleware: Converts request & response into json object before passing it to other calls
 app.use(express.json())
-
+app.get('/', function (req, res) {
+    res.render('index', {});
+  });
 // Custom Endpoint 1: Get by ID
 app.get('/pokemon_by_id', async (req, res) => {
     const id = req.query.id
