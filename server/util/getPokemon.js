@@ -47,10 +47,14 @@ async function call(id) {
         // Grabs evolution tree from the evo chain by doing a DFS down the json object
         const evoTree = await axios.get(evoChainURL)
         .then(response => {
-            const dfs = (pokemon) => {
+            const dfs = async (pokemon) => {
+                const pokeName = pokemon.species.name
+                const pokeSprite = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokeName}`)
+                .then(async response => response.data.sprites.front_default)
                 return {
                     name: pokemon.species.name,
-                    evolves_to: pokemon.evolves_to.map((evo) => dfs(evo))
+                    sprite: pokeSprite,
+                    evolves_to: await Promise.all(pokemon.evolves_to.map((evo) => dfs(evo)))
                 }
             }
             return dfs(response.data.chain)
