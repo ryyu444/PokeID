@@ -1,3 +1,4 @@
+// Importing required libraries
 const express = require("express")
 const app = express()
 const port = 4000
@@ -5,100 +6,75 @@ const port = 4000
 const cors = require("cors")
 const axios = require("axios")
 
-const pokeGenRanges = [1, 152, 252, 387, 494, 650, 722, 810, 906] //array of when each generation ends by id
+const getPokemon = require('./util/getPokemon.js')
+
+const pokeGenRanges = [1, 152, 252, 387, 494, 650, 722, 810, 906] // array of when each generation ends by id
 
 app.use(cors({
     origin: "*"
 }))
 
+// Middleware: Converts request & response into json object before passing it to other calls
 app.use(express.json())
-
-// custom endpoints
+app.get('/', function (req, res) {
+    res.render('index', {});
+  });
+// Custom Endpoint 1: Get by ID
 app.get('/pokemon_by_id', async (req, res) => {
     const id = req.query.id
+    // ID not provided
     if (!id) {
         res.send({
             success: false,
-            error: "No pokemon id provided"
+            error: "No Pokémon ID provided"
         })
     } else {
-        axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
-            .then(async response => {
-                const data = response.data
-                const simpleTypes = data.types.map((type) => {
-                    return type.type.name
-                })
-                res.send({
-                    success: true,
-                    data: {
-                        id: id,
-                        name: data.name,
-                        type: simpleTypes,
-                        weight: data.weight,
-                        sprites: data.sprites.front_default,
-                    }
-                });
-            })
-            .catch(err => {
-                res.send({
-                    success: false,
-                    error: {
-                        status: err.response.status,
-                        statusText: err.response.statusText
-                    }
-                });
-            })
+        res.send(await getPokemon.call(id));
     }
 })
 
-// Grab pokemon by gen & stores the json object into an array
+// Custom Endpoint 2: Get pokemon by name
+app.get('/pokemon_by_name', async (req, res) => {
+    let name = req.query.name
+    // No name query param input
+    if (!name) {
+        res.send({
+            success: false,
+            error: "No Pokémon Name provided"
+        })
+    // GET Request using Axios
+    } else {
+        name = name.toLowerCase()
+        res.send(await getPokemon.call(name));
+    }
+})
+
+// Custom Endpoint 3: Get all pokemon within a generation
 app.get('/pokemon_by_gen', async (req, res) => {
     const generation = req.query.generation
     let genPokemon = [];
+    // Generation Query Param is empty
     if (!generation) {
         res.send({
             success: false,
-            error: "No pokemon generation provided"
+            error: "No Pokémon Generation provided"
         })
+    // Generation Query Param is beyond existing generations
     } else if(!(generation >= 1 && generation <= 8)) {
         res.send({
             success: false,
             error: "Generation out of range"
         })
+    // Axios GET Request to fetch data for Pokémon in a specific id range correlating to generation
     } else {
-        const getPokemonData = async (id) => {
-            await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
-            .then(async response => {
-                const data = response.data
-                const simpleTypes = data.types.map((type) => {
-                    return type.type.name
-                })
-                genPokemon.push({
-                    id: id,
-                    name: data.name,
-                    type: simpleTypes,
-                    weight: data.weight,
-                    sprites: data.sprites.front_default,
-                })
-            })
-            .catch(err => {
-                res.send({
-                    success: false,
-                    error: {
-                        status: err.response.status,
-                        statusText: err.response.statusText
-                    }
-                });
-            })
-        }
-
+        // Wonky Promise Code to do Parallel Programming for fetching Pokemon faster
         let asyncCalls = []
         for (let id = pokeGenRanges[generation - 1]; id < pokeGenRanges[generation]; id++) {
             asyncCalls.push(new Promise(async (resolve, reject) => {
-                resolve(await getPokemonData(id))
+                resolve(genPokemon.push((await getPokemon.call(id)).data))
             }))
         }
-
+        // Waits for all Promises to be resolved/rejected & then sorts the Pokémon by ID before sending a json object response w/ our data
         await Promise.allSettled(asyncCalls).then(() => {
             genPokemon.sort((a, b) => {
                 return a.id - b.id
@@ -111,7 +87,6 @@ app.get('/pokemon_by_gen', async (req, res) => {
 
     }
 })
-
 
 app.listen(port, () => {
     console.log(`listening on port ${port}.`)
