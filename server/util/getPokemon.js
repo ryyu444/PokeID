@@ -1,5 +1,6 @@
 const axios = require("axios")
 
+// weakness typing
 let types = {
     normal: 1,
     fire: 1,
@@ -21,36 +22,45 @@ let types = {
     fairy: 1
 }
 
+// Function to do fetching of data & parsing into specified pieces
 async function call(id) {
     // Axios GET Request w/ given ID
     const output = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
     // Successful GET --> Parse response & send back a json object w/ desired contents
     .then(async response => {
         const data = response.data
+        // Grabs names from types
         const simpleTypes = data.types.map((type) => {
             return type.type.name
         })
+        // Grabs statName & statValue from stats
         const basicStats = data.stats.map((stat) => {
             return {
                     statName: stat.stat.name, 
                     statValue: stat.base_stat
                     }
         })
-        // Finds Evolutions of Requested Pokemon - Finds species --> Finds Evolution Chain --> Grabs Names from Evolution Chain
+        // Finds Evolutions of Requested Pokemon: Finds Evolution Chain URL
         const evoChainURL = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${data.id}`)
         .then(async response => response.data.evolution_chain.url)
 
+        // Grabs evolution tree from the evo chain by doing a DFS down the json object
         const evoTree = await axios.get(evoChainURL)
         .then(response => {
-            const dfs = (pokemon) => {
+            const dfs = async (pokemon) => {
+                const pokeName = pokemon.species.name
+                const pokeSprite = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokeName}`)
+                .then(async response => response.data.sprites.front_default)
                 return {
                     name: pokemon.species.name,
-                    evolves_to: pokemon.evolves_to.map((evo) => dfs(evo))
+                    sprite: pokeSprite,
+                    evolves_to: await Promise.all(pokemon.evolves_to.map((evo) => dfs(evo)))
                 }
             }
             return dfs(response.data.chain)
         })
 
+        // Grabs all types from a pokemon & updates type multipliers using GET data from type endpoint
         let damageFrom = JSON.parse(JSON.stringify(types))
         await Promise.all(simpleTypes.map(async (type) => {
             await axios.get(`https://pokeapi.co/api/v2/type/${type}`)
@@ -66,11 +76,13 @@ async function call(id) {
             })
         }))
 
+        // Separates type multiplier object into individual type objects in an array
         let damageFromArr = []
         for (const [key, value] of Object.entries(damageFrom)) {
             damageFromArr.push({type: key, multiplier: value})
         }
 
+        // Sorts the array by least multiplier to greatest
         damageFromArr.sort((a, b) => {
             return a.multiplier - b.multiplier
         })

@@ -70,7 +70,7 @@ app.get('/pokemon_by_gen', async (req, res) => {
         // Wonky Promise Code to do Parallel Programming for fetching Pokemon faster
         let asyncCalls = []
         for (let id = pokeGenRanges[generation - 1]; id < pokeGenRanges[generation]; id++) {
-            asyncCalls.push(new Promise(async (resolve, reject) => {
+            asyncCalls.push(new Promise(async (resolve) => {
                 resolve(genPokemon.push((await getPokemon.call(id)).data))
             }))
         }
